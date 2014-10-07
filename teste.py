@@ -1,54 +1,28 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
+#!/usr/bin/python3.2          
 
-# C extensions
-*.so
+import socket, termcolor
+from termcolor import colored
 
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
+s = socket.socket()
+host = socket.gethostname()
+port = 12345
+s.bind((host, port))
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+s.listen(5)
+c, addr = s.accept()
+c.settimeout(1)
+while 1:
+   try:
+      msg = c.recv(512)
+      if msg:
+         print(colored("Cliente: ", 'red') + msg.decode())
+   except:
+      msg = input(colored("Eu: ",'green'))
+      c.send(msg.encode())
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+c.close()
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
 
-# Translations
-*.mo
-*.pot
 
-# Django stuff:
-*.log
 
-# Sphinx documentation
-docs/_build/
 
-# PyBuilder
-target/
